@@ -489,7 +489,6 @@ def _fetch_url(url: str, verify_ssl: bool = True, follow_redirects: bool = False
         "url": url, "reachable": False, "status": None,
         "final_url": url, "body": "", "headers": {}, "error": None,
     }
-    # req = urllib.request.Request(url, headers={"User-Agent": "Soaphound/1.0"})
     req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
     context = None
     if url.lower().startswith("https://") and not verify_ssl:
