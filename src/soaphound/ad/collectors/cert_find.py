@@ -42,6 +42,8 @@ try:
 except Exception:
     x509 = None
 
+USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
+
 ENROLL_GUID = "0e10c968-78fb-11d2-90d4-00c04f79dc55"
 AUTOENROLL_GUID = "a05b8cc2-17bc-4802-a710-e7c15ab866a2"
 ALL_EXTENDED_RIGHTS_GUID = "00000000-0000-0000-0000-000000000000"
@@ -487,7 +489,8 @@ def _fetch_url(url: str, verify_ssl: bool = True, follow_redirects: bool = False
         "url": url, "reachable": False, "status": None,
         "final_url": url, "body": "", "headers": {}, "error": None,
     }
-    req = urllib.request.Request(url, headers={"User-Agent": "Soaphound/1.0"})
+    # req = urllib.request.Request(url, headers={"User-Agent": "Soaphound/1.0"})
+    req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
     context = None
     if url.lower().startswith("https://") and not verify_ssl:
         context = ssl._create_unverified_context()
@@ -660,7 +663,7 @@ def _try_detect_https_epa(https_url: str, username: str, domain: str, auth: Any)
         response = session.get(
             https_url, auth=HttpNtlmAuth(ntlm_username, password),
             verify=False, allow_redirects=True, timeout=WEB_PROBE_TIMEOUT,
-            headers={"User-Agent": "Soaphound/1.0"},
+            headers={"User-Agent": USER_AGENT},
         )
         history_codes = [r.status_code for r in response.history]
         final_code = response.status_code
